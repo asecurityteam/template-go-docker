@@ -1,4 +1,5 @@
 FROM golang:latest AS BUILDER
+WORKDIR $GOPATH/src/github.com/{{cookiecutter.project_namespace}}/{{cookiecutter.project_slug}}
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -o /opt/app main.go
 
@@ -21,4 +22,4 @@ COPY --from=CERTS /zoneinfo.zip /
 COPY --from=CERTS /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ENV ZONEINFO /zoneinfo.zip
-ENTRYPOINT ["app"]
+ENTRYPOINT ["/app"]
